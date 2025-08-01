@@ -102,10 +102,6 @@
       transition: transform 0.3s ease;
     }
 
-    .card:hover img {
-        transform: scale(1.05); /* Slight zoom on image on hover */
-    }
-
     .card-overlay {
         position: absolute;
         top: 0;
@@ -118,13 +114,9 @@
         justify-content: center;
         background: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
         color: white;
-        opacity: 0; /* Hidden by default */
+        opacity: 0; /* Hidden by default on mouse devices */
         transition: opacity 0.3s ease;
         text-align: center;
-    }
-
-    .card:hover .card-overlay {
-      opacity: 1; /* Show overlay on hover */
     }
 
     .card-overlay h3 {
@@ -142,17 +134,41 @@
 
     .card-overlay .hand-icon {
         font-size: 2.5rem;
-        transition: transform 0.2s ease-out; /* For mouse move effect */
     }
 
-    .card:hover .hand-icon {
-        animation: tap-animation 1.5s infinite ease-in-out;
+    /* --- DESKTOP HOVER STYLES --- */
+    /* This media query targets devices that can properly hover (like a desktop with a mouse) */
+    @media (hover: hover) and (pointer: fine) {
+        .card:hover img {
+            transform: scale(1.05); /* Slight zoom on image on hover */
+        }
+
+        .card:hover .card-overlay {
+          opacity: 1; /* Show overlay on hover */
+        }
+        
+        .card-overlay .hand-icon {
+            transition: transform 0.2s ease-out; /* For mouse move effect */
+        }
+
+        .card:hover .hand-icon {
+            animation: tap-animation 1.5s infinite ease-in-out;
+        }
+
+        @keyframes tap-animation {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(0.9); }
+            20%, 40% { transform: scale(1.1); }
+        }
     }
 
-    @keyframes tap-animation {
-        0%, 100% { transform: scale(1); }
-        10%, 30% { transform: scale(0.9); }
-        20%, 40% { transform: scale(1.1); }
+    /* --- TOUCH DEVICE STYLES --- */
+    /* This media query targets devices that cannot properly hover (like phones and tablets) */
+    @media (hover: none) and (pointer: coarse) {
+        .card-overlay {
+            opacity: 1; /* Make overlay visible by default on touch devices */
+            background: rgba(0, 0, 0, 0.5); /* Make it a bit more transparent */
+        }
     }
 
 
@@ -455,27 +471,31 @@
     homeBtn.style.display = 'none';
   }
 
-  // --- Card Icon Mouse Move Effect ---
-  document.querySelectorAll('.card').forEach(card => {
-    const handIcon = card.querySelector('.hand-icon');
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+  // --- Card Icon Mouse Move Effect (for devices that can hover) ---
+  const isHoverableDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+  if (isHoverableDevice) {
+      document.querySelectorAll('.card').forEach(card => {
+        const handIcon = card.querySelector('.hand-icon');
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
 
-        const moveX = (x - centerX) / 15; // The divisor controls the effect's intensity
-        const moveY = (y - centerY) / 15;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
 
-        handIcon.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    });
+            const moveX = (x - centerX) / 15; // The divisor controls the effect's intensity
+            const moveY = (y - centerY) / 15;
 
-    card.addEventListener('mouseleave', () => {
-        handIcon.style.transform = 'translate(0, 0)'; // Reset position
-    });
-  });
+            handIcon.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            handIcon.style.transform = 'translate(0, 0)'; // Reset position
+        });
+      });
+  }
 
 </script>
 
