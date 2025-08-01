@@ -71,10 +71,6 @@
       font-size: 1.6rem;
       transition: color 0.3s ease;
     }
-
-    .social-icons a:hover {
-        color: #00aaff;
-    }
     
     /* --- Seamless, Responsive Vertical Gallery Grid (Instagram Style) --- */
     .grid-container {
@@ -112,10 +108,10 @@
         flex-direction: column; /* Stack content vertically */
         align-items: center;
         justify-content: center;
-        background: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
+        background: rgba(0, 0, 0, 0.6);
         color: white;
-        opacity: 0; /* Hidden by default on mouse devices */
-        transition: opacity 0.3s ease;
+        opacity: 0;
+        transition: opacity 0.3s ease, background-color 0.3s ease;
         text-align: center;
     }
 
@@ -137,38 +133,58 @@
     }
 
     /* --- DESKTOP HOVER STYLES --- */
-    /* This media query targets devices that can properly hover (like a desktop with a mouse) */
     @media (hover: hover) and (pointer: fine) {
         .card:hover img {
-            transform: scale(1.05); /* Slight zoom on image on hover */
+            transform: scale(1.05);
         }
 
         .card:hover .card-overlay {
-          opacity: 1; /* Show overlay on hover */
+          opacity: 1;
         }
         
         .card-overlay .hand-icon {
-            transition: transform 0.2s ease-out; /* For mouse move effect */
+            transition: transform 0.2s ease-out;
         }
 
         .card:hover .hand-icon {
             animation: tap-animation 1.5s infinite ease-in-out;
         }
-
-        @keyframes tap-animation {
-            0%, 100% { transform: scale(1); }
-            10%, 30% { transform: scale(0.9); }
-            20%, 40% { transform: scale(1.1); }
-        }
     }
 
     /* --- TOUCH DEVICE STYLES --- */
-    /* This media query targets devices that cannot properly hover (like phones and tablets) */
     @media (hover: none) and (pointer: coarse) {
         .card-overlay {
-            opacity: 1; /* Make overlay visible by default on touch devices */
-            background: rgba(0, 0, 0, 0.5); /* Make it a bit more transparent */
+            opacity: 1;
+            background: transparent; /* No background by default */
         }
+
+        .card-overlay h3 {
+            opacity: 0; /* Hide title by default */
+            transition: opacity 0.3s ease;
+        }
+
+        .card-overlay p, .card-overlay .hand-icon {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8); /* Add shadow for readability */
+        }
+
+        /* On tap (which triggers :hover), bring back the full overlay */
+        .card:hover .card-overlay {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .card:hover .card-overlay h3 {
+            opacity: 1;
+        }
+        
+        .card:hover .hand-icon {
+            animation: tap-animation 1.5s infinite ease-in-out;
+        }
+    }
+
+    @keyframes tap-animation {
+        0%, 100% { transform: scale(1); }
+        10%, 30% { transform: scale(0.9); }
+        20%, 40% { transform: scale(1.1); }
     }
 
 
