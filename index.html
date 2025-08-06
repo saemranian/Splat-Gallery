@@ -71,10 +71,6 @@
       font-size: 1.6rem;
       transition: color 0.3s ease;
     }
-
-    .social-icons a:hover {
-        color: #00aaff;
-    }
     
     /* --- Seamless, Responsive Vertical Gallery Grid (Instagram Style) --- */
     .grid-container {
@@ -102,10 +98,6 @@
       transition: transform 0.3s ease;
     }
 
-    .card:hover img {
-        transform: scale(1.05); /* Slight zoom on image on hover */
-    }
-
     .card-overlay {
         position: absolute;
         top: 0;
@@ -113,25 +105,88 @@
         width: 100%;
         height: 100%;
         display: flex;
+        flex-direction: column; /* Stack content vertically */
         align-items: center;
         justify-content: center;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.6);
         color: white;
-        opacity: 0; /* Hidden by default */
-        transition: opacity 0.3s ease;
+        opacity: 0;
+        transition: opacity 0.3s ease, background-color 0.3s ease;
         text-align: center;
-    }
-
-    .card:hover .card-overlay {
-      opacity: 1; /* Show overlay on hover */
     }
 
     .card-overlay h3 {
       margin: 0;
-      padding: 1rem;
+      padding: 0 1rem;
       font-size: 1.2rem;
       font-weight: 600;
     }
+    
+    .card-overlay p {
+        margin: 0.5rem 0 1rem 0;
+        font-size: 0.9rem;
+        font-weight: 300;
+    }
+
+    .card-overlay .hand-icon {
+        font-size: 2.5rem;
+    }
+
+    /* --- DESKTOP HOVER STYLES --- */
+    @media (hover: hover) and (pointer: fine) {
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card:hover .card-overlay {
+          opacity: 1;
+        }
+        
+        .card-overlay .hand-icon {
+            transition: transform 0.2s ease-out;
+        }
+
+        .card:hover .hand-icon {
+            animation: tap-animation 1.5s infinite ease-in-out;
+        }
+    }
+
+    /* --- TOUCH DEVICE STYLES --- */
+    @media (hover: none) and (pointer: coarse) {
+        .card-overlay {
+            opacity: 1;
+            background: transparent; /* No background by default */
+        }
+
+        .card-overlay h3 {
+            opacity: 0; /* Hide title by default */
+            transition: opacity 0.3s ease;
+        }
+
+        .card-overlay p, .card-overlay .hand-icon {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8); /* Add shadow for readability */
+        }
+
+        /* On tap (which triggers :hover), bring back the full overlay */
+        .card:hover .card-overlay {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .card:hover .card-overlay h3 {
+            opacity: 1;
+        }
+        
+        .card:hover .hand-icon {
+            animation: tap-animation 1.5s infinite ease-in-out;
+        }
+    }
+
+    @keyframes tap-animation {
+        0%, 100% { transform: scale(1); }
+        10%, 30% { transform: scale(0.9); }
+        20%, 40% { transform: scale(1.1); }
+    }
+
 
     /* --- Iframe Viewer --- */
     #viewer {
@@ -167,7 +222,7 @@
 <!-- Video Header Section -->
 <div class="video-header-container">
   <video autoplay loop muted playsinline id="header-video">
-    <source src="videos/Header_Showreel_01_FHD.mp4" type="video/mp4">
+    <source src="videos/Splat_Mix02_FHD_Compressed_02.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <header>
@@ -187,111 +242,211 @@
 
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=620879ac')">
         <img src="images/thumbnails/Garage_Studio_03.jpg" alt="Garage Studio" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>LiDAR XGRIDS L2PRO</h3></div>
+        <div class="card-overlay">
+            <h3>Garage Studio - SuperSplat</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://lcc-viewer.xgrids.com/pub/dhgpsj-ahmademranian-garage-02')">
         <img src="images/thumbnails/Garage_Studio_01.jpg" alt="Garage Studio" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>LiDAR XGRIDS L2PRO</h3></div>
+        <div class="card-overlay">
+            <h3>Garage Studio - LCC Viewer</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=f32cc087')">
         <img src="images/thumbnails/Ahmad_Apt_02.jpg" alt="Ahmad Apartment" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>LiDAR + Photo-Scanning</h3></div>
+        <div class="card-overlay">
+            <h3>Ahmad Apt. - SuperSplat</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://teleport.varjo.com/captures/f56508e609c54ab283c7a15344642a89')">
         <img src="images/thumbnails/Ahmad_Apt_01.jpg" alt="Ahmad Apartment" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>LiDAR + Photo-Scanning</h3></div>
+        <div class="card-overlay">
+            <h3>Ahmad Apt. - Teleport.Varjo</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://lcc-viewer.xgrids.com/pub/dhgpsj-ahmad-emranian_physiolab01')">
         <img src="images/thumbnails/PhySioLab_LCC_01.jpg" alt="PhysioLab" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>LiDAR</h3></div>
-      </div>
-      <div class="card" onclick="loadIframe('https://lcc-viewer.xgrids.com/pub/dhgpsj-ahmad-emranian-garage-studio-1')">
-        <img src="images/thumbnails/Garage_Studio_02.jpg" alt="Garage Studio" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>LiDAR</h3></div>
+        <div class="card-overlay">
+            <h3>Physiolab - LCC Viewer</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://lcc-viewer.xgrids.com/pub/dhgpsj-ahmad-emranian-apt02')">
         <img src="images/thumbnails/Ahmad_Apt_LCC_01.jpg" alt="Ahmad Apt" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>LiDAR</h3></div>
+        <div class="card-overlay">
+            <h3>Ahmad Apt. LCC Viewer</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=11485f49')">
         <img src="images/thumbnails/Damac02_11_01.jpg" alt="ShowVilla Scene 11" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Damac ShowVilla02 Scene 11</h3></div>
+        <div class="card-overlay">
+            <h3>Damac ShowVilla Scene 11</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=5c36a039')">
         <img src="images/thumbnails/Damac02_08_01.jpg" alt="ShowVilla Scene 08" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Damac ShowVilla02 Scene 08</h3></div>
+        <div class="card-overlay">
+            <h3>Damac ShowVilla Scene 08</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=4baa2237')">
         <img src="images/thumbnails/Damac02_07_01.jpg" alt="ShowVilla Scene 07" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Damac ShowVilla02 Scene 07</h3></div>
+        <div class="card-overlay">
+            <h3>Damac ShowVilla Scene 07</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=162aebc4')">
         <img src="images/thumbnails/Damac02_06_01.jpg" alt="ShowVilla Scene 06" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Damac ShowVilla02 Scene 06</h3></div>
+        <div class="card-overlay">
+            <h3>Damac ShowVilla Scene 06</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=3dd6747b')">
         <img src="images/thumbnails/Damac02_04_01.jpg" alt="ShowVilla Scene 04" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Damac ShowVilla02 Scene 04</h3></div>
+        <div class="card-overlay">
+            <h3>Damac ShowVilla Scene 04</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=ceea9455')">
         <img src="images/thumbnails/Damac02_01_01.jpg" alt="ShowVilla Scene 01" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Damac ShowVilla02 Scene 01</h3></div>
+        <div class="card-overlay">
+            <h3>Damac ShowVilla Scene 01</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=ba2135bc')">
         <img src="images/thumbnails/Construction01_01.jpg" alt="Construction 01" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Construction 01</h3></div>
+        <div class="card-overlay">
+            <h3>Construction 01</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=76189038')">
         <img src="images/thumbnails/Ajman_Alley_01.jpg" alt="Abandoned Alley" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Abandoned Alley</h3></div>
+        <div class="card-overlay">
+            <h3>Abandoned Alley</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=7d93716a')">
         <img src="images/thumbnails/mini_Truck_01.jpg" alt="Mini Truck" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Mini Truck</h3></div>
+        <div class="card-overlay">
+            <h3>Mini Truck</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=c81a684f')">
         <img src="images/thumbnails/RTX_4090_01.jpg" alt="NVIDIA RTX 4090" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>NVIDIA RTX 4090</h3></div>
+        <div class="card-overlay">
+            <h3>NVIDIA RTX 4090</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=08c7f788')">
         <img src="images/thumbnails/Pikanto_01.jpg" alt="KIA Picanto" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>KIA Picanto</h3></div>
+        <div class="card-overlay">
+            <h3>KIA Picanto</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=69b0668d')">
         <img src="images/thumbnails/Bus_Ben_Mohammed_01.jpg" alt="Bus in Dubai" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Bus in Dubai</h3></div>
+        <div class="card-overlay">
+            <h3>Bus in Dubai</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=ddccb2e3')">
         <img src="images/thumbnails/Sobha_01.jpg" alt="SOBHA Realty" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>SOBHA Realty – Dubai</h3></div>
+        <div class="card-overlay">
+            <h3>SOBHA Realty – Dubai</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=a6a11bec')">
         <img src="images/thumbnails/Camel_Fares_01.jpg" alt="Camel Fares" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Camel Fares – Dubai</h3></div>
+        <div class="card-overlay">
+            <h3>Camel Fares – Dubai</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=b8dc615d')">
         <img src="images/thumbnails/Akmal_01.jpg" alt="Akmal Head Scan" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Akmal Head Scan</h3></div>
+        <div class="card-overlay">
+            <h3>Akmal Head Scan</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=104e3ce2')">
         <img src="images/thumbnails/Venice_01.jpg" alt="Sony Venice 2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Sony Venice 2</h3></div>
+        <div class="card-overlay">
+            <h3>Sony Venice 2</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=118de544')">
         <img src="images/thumbnails/MOF_01.jpg" alt="Museum of the Future" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Museum of the Future – Dubai</h3></div>
+        <div class="card-overlay">
+            <h3>Museum of the Future – Dubai</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=c6ca788a')">
         <img src="images/thumbnails/MOE_01.jpg" alt="Mall of the Emirates" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Mall of the Emirates – Dubai</h3></div>
+        <div class="card-overlay">
+            <h3>Mall of the Emirates – Dubai</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=1f2356bc')">
         <img src="images/thumbnails/MBL_01.jpg" alt="MBR Library" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>MBR Library – Dubai</h3></div>
+        <div class="card-overlay">
+            <h3>MBR Library – Dubai</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
       <div class="card" onclick="loadIframe('https://superspl.at/s?id=9cc058f2')">
         <img src="images/thumbnails/Gamma_01.jpg" alt="Gamma Studio" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="card-overlay"><h3>Gamma Studio – Dubai</h3></div>
+        <div class="card-overlay">
+            <h3>Gamma Studio – Dubai</h3>
+            <p>Click to navigate in 3D</p>
+            <i class="fas fa-hand-pointer hand-icon"></i>
+        </div>
       </div>
 
     </div>
@@ -300,7 +455,7 @@
 <iframe id="viewer"></iframe>
 
 <script>
-  // Get references to the DOM elements
+  // --- Iframe Navigation ---
   const gallerySection = document.getElementById('gallery-section');
   const viewer = document.getElementById('viewer');
   const homeBtn = document.getElementById('homeBtn');
@@ -331,6 +486,33 @@
     // Hide the back button
     homeBtn.style.display = 'none';
   }
+
+  // --- Card Icon Mouse Move Effect (for devices that can hover) ---
+  const isHoverableDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (isHoverableDevice) {
+      document.querySelectorAll('.card').forEach(card => {
+        const handIcon = card.querySelector('.hand-icon');
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const moveX = (x - centerX) / 15; // The divisor controls the effect's intensity
+            const moveY = (y - centerY) / 15;
+
+            handIcon.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            handIcon.style.transform = 'translate(0, 0)'; // Reset position
+        });
+      });
+  }
+
 </script>
 
 </body>
